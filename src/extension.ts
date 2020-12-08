@@ -10,7 +10,8 @@ export function activate(context: vscode.ExtensionContext) {
         .map(theme => theme.id || theme.label)
         ;
 
-    const onActive = vscode.commands.registerCommand('extension.enableRave', () => {
+    const onActive = () => {
+        const command = 'extension.enableRave';
         let prevTheme = '';
         vscode.workspace.onDidChangeTextDocument(e => {
             // ignore change events that don't actually have changes (why does this even happen?)
@@ -35,7 +36,7 @@ export function activate(context: vscode.ExtensionContext) {
         }, null, context.subscriptions);
     });
 
-    context.subscriptions.push(onActive);
+     context.subscriptions.push(vscode.commands.registerCommand(command, onActive));
 }
 
 export function deactivate() {
